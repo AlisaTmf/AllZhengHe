@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--1.扫描控制层的注解-->
+    <context:component-scan base-package="com.swjd.controller"/>
+
+    <!--2.配置视图解析器：指明控制器方法的返回值跳转到哪里-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--配置前缀-->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!--配置后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--3.启动springMVC注解去注册组件-->
+    <mvc:annotation-driven/>
+    <!--<mvc:annotation-driven validator="stuLoginValidator"/>-->
+    <!--4.给静态资源放行-->
+    <mvc:default-servlet-handler/>
+
+ <!--   <bean id="stuLoginValidator" class="com.swjd.validator.StuLoginValidator"></bean>-->
+    <!--根据实际情况来定-->
+    <!--5.配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <!--释放静态资源-->
+            <mvc:exclude-mapping path="/**/*.js"/>
+          <bean id="interceptor" class="com.swjd.Interceptor.LgionInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
